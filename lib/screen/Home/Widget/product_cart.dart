@@ -1,4 +1,5 @@
 import 'package:ecommerce_app_with_provider/model/Product.dart';
+import 'package:ecommerce_app_with_provider/provider/favorite.dart';
 import 'package:flutter/material.dart';
 
 import '../../../constant.dart';
@@ -10,6 +11,7 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final provider = FavoriteProvider.of(context);
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -21,12 +23,15 @@ class ProductCard extends StatelessWidget {
         Container(
           width: double.infinity,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            color: kcontentColor,
-          ),
+              borderRadius: BorderRadius.circular(20), color: kcontentColor
+              // color: Colors.black,
+              ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // SizedBox(
+              //   height: 15,
+              // ),
               Center(
                 child: Image.asset(
                   product.image,
@@ -77,24 +82,32 @@ class ProductCard extends StatelessWidget {
           ),
         ),
         // const SizedBox(height: 20),
-
+//! favorite icon
         Positioned(
-          top: -1,
-          right: 2,
+            child: Align(
+          alignment: Alignment.topRight,
           child: Container(
             height: 40,
             width: 40,
-            child: Icon(
-              Icons.favorite_outline,
-              color: Colors.white,
-            ),
             decoration: BoxDecoration(
                 color: Colors.orange,
                 borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(10),
+                    topRight: Radius.circular(20),
                     bottomLeft: Radius.circular(10))),
+            child: GestureDetector(
+              onTap: () {
+                provider.toggleFavorite(product);
+              },
+              child: Icon(
+                provider.isExist(product)
+                    ? Icons.favorite
+                    : Icons.favorite_border,
+                color: Colors.white,
+                size: 22,
+              ),
+            ),
           ),
-        ),
+        )),
       ]),
     );
   }

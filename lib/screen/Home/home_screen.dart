@@ -1,3 +1,4 @@
+import 'package:ecommerce_app_with_provider/model/Category.dart';
 import 'package:ecommerce_app_with_provider/screen/Home/Widget/categories.dart';
 import 'package:ecommerce_app_with_provider/screen/Home/Widget/home_app_bar.dart';
 import 'package:ecommerce_app_with_provider/screen/Home/Widget/image_slider.dart';
@@ -20,14 +21,14 @@ class _HomeScreenState extends State<HomeScreen> {
   int selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
-    // List<List<Product>> selectcategories = [
-    //   all,
-    //   shoes,
-    //   beauty,
-    //   womenFashion,
-    //   jewelry,
-    //   menFashion
-    // ];
+    List<List<Product>> selectcategories = [
+      products,
+      shoes,
+      beauty,
+      womenFashion,
+      jewelry,
+      menFashion
+    ];
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -54,8 +55,53 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(height: 22),
 
               //! for category selection
-              Categories(),
-              const Row(
+              // Categories(),
+              SizedBox(
+                height: 120,
+                child: ListView.builder(
+                  itemCount: categories.length,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          selectedIndex = index;
+                        });
+                        // Navigator.push(context, MaterialPageRoute(builder: (context) => ));
+                      },
+                      child: Container(
+                        padding: EdgeInsets.all(5),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: selectedIndex == index
+                                ? const Color.fromARGB(255, 94, 124, 148)
+                                : const Color.fromARGB(0, 0, 0, 0)),
+                        child: Column(
+                          children: [
+                            Container(
+                              height: 65,
+                              width: 65,
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image:
+                                          AssetImage(categories[index].images),
+                                      fit: BoxFit.cover),
+                                  shape: BoxShape.circle),
+                            ),
+                            SizedBox(height: 5),
+                            Text(
+                              categories[index].title,
+                              style: TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.bold),
+                            )
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text('Special For You',
@@ -76,7 +122,7 @@ class _HomeScreenState extends State<HomeScreen> {
               // ShoppingItem(),
 
               GridView.builder(
-                itemCount: products.length,
+                itemCount: selectcategories[selectedIndex].length,
                 padding: EdgeInsets.zero,
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
@@ -86,7 +132,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     crossAxisSpacing: 15,
                     mainAxisSpacing: 15),
                 itemBuilder: (context, index) {
-                  return ProductCard(product: products[index]);
+                  return ProductCard(
+                      product: selectcategories[selectedIndex][index]);
                 },
               )
             ],

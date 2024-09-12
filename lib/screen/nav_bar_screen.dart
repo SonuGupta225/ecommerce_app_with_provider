@@ -1,6 +1,7 @@
+import 'package:ecommerce_app_with_provider/Profile/profile.dart';
 import 'package:ecommerce_app_with_provider/constant.dart';
-import 'package:ecommerce_app_with_provider/screen/Cart/cart_screen.dart';
-import 'package:ecommerce_app_with_provider/screen/favorite.dart';
+import 'package:ecommerce_app_with_provider/screen/CartScreen/cart_screen.dart';
+import 'package:ecommerce_app_with_provider/screen/Favorite/favorite.dart';
 import 'package:ecommerce_app_with_provider/screen/Home/home_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -13,18 +14,22 @@ class BottomNavBarScreen extends StatefulWidget {
 
 class _BottomNavBarScreenState extends State<BottomNavBarScreen> {
   int cuttentIndex = 2;
-  List screens = [
-    // Scaffold(),
+  List screens = const [
+    Scaffold(),
+    Favorite(),
     HomeScreen(),
-    const Favorite(),
-    const CartScreen(),
-    // Profile(),
+    CartScreen(),
+    Profile(),
   ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          setState(() {
+            cuttentIndex = 2;
+          });
+        },
         shape: CircleBorder(),
         backgroundColor: kprimaryColor,
         child: Icon(
